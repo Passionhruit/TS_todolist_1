@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import uuid from "react-uuid";
+import ToDos from "../components/ToDos";
 
-interface Todos {
+export interface Todos {
   id: string;
   title: string;
   note: string;
@@ -36,6 +37,8 @@ function Main() {
       isDone: false,
     };
     setTodos([...todos, newTodo]);
+    setTitle("");
+    setNote("");
   };
 
   const moveTodo = (id: string): void => {
@@ -53,40 +56,22 @@ function Main() {
   return (
     <>
       <form>
-        제목 : <input type="text" onChange={titleHandler} />
-        내용 : <input type="text" onChange={noteHandler} />
+        제목 : <input type="text" value={title} onChange={titleHandler} />
+        내용 : <input type="text" value={note} onChange={noteHandler} />
         <button onClick={addTodo}>등록</button>
       </form>
-      <div>
-        <h1>Working List</h1>
-        {todos
-          .filter((todo) => !todo.isDone)
-          .map((todo) => {
-            return (
-              <div key={todo.id}>
-                <h2>{todo.title}</h2>
-                <p>{todo.note}</p>
-                <button onClick={() => moveTodo(todo.id)}>완료</button>
-                <button onClick={() => deleteTodo(todo.id)}>삭제</button>
-              </div>
-            );
-          })}
-      </div>
-      <div>
-        <h1>Done List</h1>
-        {todos
-          .filter((todo) => todo.isDone)
-          .map((todo) => {
-            return (
-              <div key={todo.id}>
-                <h2>{todo.title}</h2>
-                <p>{todo.note}</p>
-                <button onClick={() => moveTodo(todo.id)}>취소</button>
-                <button onClick={() => deleteTodo(todo.id)}>삭제</button>
-              </div>
-            );
-          })}
-      </div>
+      <ToDos
+        todos={todos}
+        isDone={false}
+        moveTodo={moveTodo}
+        deleteTodo={deleteTodo}
+      />
+      <ToDos
+        todos={todos}
+        isDone={true}
+        moveTodo={moveTodo}
+        deleteTodo={deleteTodo}
+      />
     </>
   );
 }
