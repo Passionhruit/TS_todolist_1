@@ -55,6 +55,7 @@ function Main() {
 
   return (
     <>
+      <h1>TO DO LIST</h1>
       <form>
         제목 : <input type="text" value={title} onChange={titleHandler} />
         내용 : <input type="text" value={note} onChange={noteHandler} />
